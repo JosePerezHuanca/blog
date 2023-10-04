@@ -1,8 +1,10 @@
 <template>
   <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/">Inicio</router-link> |
+    <router-link v-if="token" to="/add">Crear post</router-link> |
+    <a v-if="token" @click="logoutMethod">Cerrar sesión</a>
   </nav>
+  <h1>Blog</h1>
   <router-view/>
 </template>
 
@@ -28,3 +30,20 @@ nav a.router-link-exact-active {
   color: #42b983;
 }
 </style>
+
+<script>
+  export default{
+    computed:{
+      token(){
+        return this.$store.getters.getToken;
+      }
+    },
+    methods:{
+      logoutMethod(){
+        this.$store.dispatch('logoutAction');
+        this.$router.push('/');
+      }
+    }
+  }
+</script>
+
