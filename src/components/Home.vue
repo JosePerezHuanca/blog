@@ -1,7 +1,6 @@
 <template>
     <div class="post-list">
         <h2>Lista de entradas</h2>
-        <button @click="prevMethod" :disabled="currentPage === 1">Anterior</button>
         <div v-if="posts" v-for="post in posts" class="post-item">
             <h2><router-link :to="`/${post.creationDate}/${post.urlSlug}`">{{ post.title }}</router-link></h2>
             <div class="post-info">
@@ -11,6 +10,7 @@
             <router-link :to="`/edit/${post.creationDate}/${post.urlSlug}`" v-if="isAdmin!==null && isAdmin">Editar</router-link>
             <button v-if="isAdmin!==null && isAdmin" @click="removeMethod(post.id)">Borrar</button>
         </div>
+        <button @click="prevMethod" :disabled="currentPage === 1">Anterior</button>
         <button @click="nextMethod" :disabled="currentPage >= totalPages">Siguiente</button>
     </div>
 </template>
