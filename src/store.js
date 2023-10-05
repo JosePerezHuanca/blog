@@ -7,7 +7,7 @@ const store=createStore({
     post: {},
     posts: [],
     currentPage: 1,
-    results: 1,
+    results: 5,
     totalPages: 0
   },
   mutations:{
