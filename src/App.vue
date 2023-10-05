@@ -4,8 +4,13 @@
     <router-link v-if="token" to="/add">Crear post</router-link> |
     <a v-if="token" @click="logoutMethod">Cerrar sesión</a>
   </nav>
-  <h1>Blog</h1>
-  <router-view/>
+  <main>
+    <h1>Blog</h1>
+    <router-view/>
+  </main>
+  <footer>
+    <p>&copy; {{ siteName }} {{ new Date().getFullYear() }}</p>
+  </footer>
 </template>
 
 <style>
@@ -36,6 +41,9 @@ nav a.router-link-exact-active {
     computed:{
       token(){
         return this.$store.getters.getToken;
+      },
+      siteName(){
+        return process.env.VUE_APP_SITE_NAME;
       }
     },
     methods:{
