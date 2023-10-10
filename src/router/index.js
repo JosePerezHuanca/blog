@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import store from '../store';
 import Home from '../components/Home.vue';
 import Signup from '../components/Signup.vue';
 import Signin from '../components/Signin.vue';
@@ -6,6 +7,7 @@ import Add from '../components/Add.vue';
 import Post from '../components/Post.vue';
 import Edit from '../components/Edit.vue';
 import notFound from '../components/notFound.vue';
+import { nextTick } from 'vue';
 
 const routes = [
   {
@@ -23,7 +25,10 @@ const routes = [
   },
   {
     path: '/add',
-    component: Add
+    component: Add,
+    meta:{
+      requiresAuth: true
+    }
   },
   {
     path: '/:creationDate/:urlSlug',
@@ -31,7 +36,10 @@ const routes = [
   },
   {
     path: '/edit/:creationDate/:urlSlug',
-    component: Edit
+    component: Edit,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/:catchAll(.*)',
@@ -42,6 +50,13 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
-})
+});
+router.beforeEach((to, from, next)=>{
+  const isAuth=to.matched.some((record)=> record.meta.requiresAuth);
+  if(isAuth && !store.getters.getToken){
+    return next('/signin');
+  }
+  next();
+});
 
 export default router
